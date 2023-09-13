@@ -7,6 +7,8 @@ import {
   useNavigate 
 } from 'react-router-dom';
 import './index.css';
+import Login from "./pages/Login"
+import Dashboard from './pages/Dashboard';
 
 
 const checkAuthentication = () => {
@@ -38,39 +40,12 @@ const PrivateRoute = ({ children }) => {
   );
 };
 
-// Home component
-const Home = () => <h1 className='bg-sky-500/100'>Home Page</h1>;
-
-// Dashboard component (a private route)
-const Dashboard = () => <h1>Dashboard Page</h1>;
-const TEST = () => <h1>Dashsdasdasboard Page</h1>;
-
-// Login component
-const Login = () => {
-  const navigate = useNavigate();
-  const isAuthenticated = checkAuthentication();
-
-  // Check if the user is already authenticated and redirect if necessary
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate('/dashboard', { replace: true });
-    }
-  }, [navigate, isAuthenticated]);
-
-  return (
-    <div>
-      <h1>Login</h1>
-      {/* Your login form and authentication logic here */}
-    </div>
-  );
-};
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<PrivateRoute><Home /></PrivateRoute>} />
-        <Route path="/test" element={<PrivateRoute><TEST /></PrivateRoute>} />
+        <Route path="/" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
         <Route
           path="/dashboard"
           element={
