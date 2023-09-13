@@ -1,57 +1,47 @@
 import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from 'react-router-dom';
+
+// PrivateRoute component for protecting routes
+const PrivateRoute = ({ children }) => {
+  const isAuthenticated = false/* Add your authentication logic here */;
+
+  return isAuthenticated ? (
+    children
+  ) : (
+    <Navigate to="/login" replace state={{ from: window.location.pathname }} />
+  );
+};
+
+// Home component
+const Home = () => <h1>Home Page</h1>;
+
+// Dashboard component (a private route)
+const Dashboard = () => <h1>Dashboard Page</h1>;
+
+// Login component
+const Login = () => <h1>Login</h1>
 
 function App() {
   return (
-    <div className="App bg-red-900">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<PrivateRoute><Home /></PrivateRoute>} />
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </Router>
   );
 }
 
