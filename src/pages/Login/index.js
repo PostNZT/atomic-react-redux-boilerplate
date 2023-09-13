@@ -9,26 +9,19 @@ import { connect} from 'react-redux'
 import { authenticateRequest } from '../../store/auth/actions';
 
 const Login = (props) => {
+  const navigate = useNavigate();
   const { authenticateRequest, user } = props
- 
+  const { isAuthenticated} = user
+
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
 
-  const navigate = useNavigate();
-  const isAuthenticated = false
-  // const isAuthenticated = checkAuthentication();
 
-  // Check if the user is already authenticated and redirect if necessary
   useEffect(() => {
     if (isAuthenticated) {
       navigate('/dashboard', { replace: true });
     }
   }, [navigate, isAuthenticated]);
-
-  useEffect(() => {
-
-    console.log("🚀 ~ file: index.js:35 ~ Login ~ user:", user)
-  },[user])
 
 
   const handleOnClick = () => {
@@ -38,14 +31,12 @@ const Login = (props) => {
     })
   }
 
-  const clickEvent = (event) => {
-    
+  const handleChangeEvent = (event) => {
     if (event.target.name === "email") {
       setUsername(event.target.value)
     } else if (event.target.name === "password") {
       setPassword(event.target.value)
     }
-
   }
   return (
     <>
@@ -73,7 +64,7 @@ const Login = (props) => {
                     id="email"
                     name="email"
                     type="email"
-                    onChange={clickEvent}
+                    onChange={handleChangeEvent}
                     autoComplete="email"
                     required
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -90,7 +81,7 @@ const Login = (props) => {
                     id="password"
                     name="password"
                     type="password"
-                    onChange={clickEvent}
+                    onChange={handleChangeEvent}
                     autoComplete="current-password"
                     required
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"

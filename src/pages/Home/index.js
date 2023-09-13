@@ -13,6 +13,10 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
+import { signoutUserRequest } from '../../store/auth/actions'
+import { bindActionCreators } from 'redux'
+import { connect} from 'react-redux'
+import { compose } from "recompose"
 
 const navigation = [
   { name: 'Dashboard', href: '/', icon: HomeIcon, current: true },
@@ -28,17 +32,21 @@ const teams = [
   { id: 3, name: 'Workcation', href: '#', initial: 'W', current: false },
 ]
 const userNavigation = [
-  { name: 'Your profile', href: '#' },
-  { name: 'Sign out', href: '#' },
+  { name: 'Sign out' },
 ]
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-const Dashboard = () => {
+const Home = (props) => {
 
+  const { signoutUserRequest, user } = props
   const [sidebarOpen, setSidebarOpen] = useState(false)
+
+  const handleClickLogout = () => {
+    signoutUserRequest()
+  }
 
   return (
     <>
@@ -332,9 +340,10 @@ const Dashboard = () => {
                         <Menu.Item key={item.name}>
                           {({ active }) => (
                             <a
+                              onClick={handleClickLogout}
                               href={item.href}
                               className={classNames(
-                                active ? 'bg-gray-50' : '',
+                                active ? 'bg-gray-50 cursor-pointer' : '',
                                 'block px-3 py-1 text-sm leading-6 text-gray-900'
                               )}
                             >
@@ -359,4 +368,14 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+const mapStateToProps = (state) => ({
+  user: state.auth.get('user'),
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  ...bindActionCreators({
+    signoutUserRequest,
+  }, dispatch)
+})
+
+export default compose(connect(mapStateToProps, mapDispatchToProps))(Home)

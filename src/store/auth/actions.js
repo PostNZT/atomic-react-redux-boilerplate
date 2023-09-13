@@ -21,3 +21,35 @@ export const authenticateFailure = (response, meta) => ({
   payload: response,
   meta,
 })
+
+export const GET_SAVED_USER_REQUEST = 'GET_SAVED_USER_REQUEST'
+export const GET_SAVED_USER_SUCCESS = 'GET_SAVED_USER_SUCCESS'
+
+export const getSavedUserRequest = () => ({
+  type: GET_SAVED_USER_REQUEST,
+  meta: {
+    thunk: true
+  }
+})
+
+export const getSavedUserSuccess = (response, meta) => ({
+  type: GET_SAVED_USER_SUCCESS,
+  payload: response,
+  meta
+})
+
+export const SIGNOUT_USER_REQUEST = 'SIGNOUT_USER_REQUEST'
+export const SIGNOUT_USER_SUCCESS = 'SIGNOUT_USER_SUCCESS'
+
+export const signoutUserRequest = () => ({
+  type: SIGNOUT_USER_REQUEST,
+  meta: {
+    thunk: true
+  }
+})
+
+export const signoutUserSuccess = (response, meta) => ({
+  type: SIGNOUT_USER_SUCCESS,
+  payload: response,
+  meta
+})
